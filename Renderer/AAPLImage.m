@@ -2,12 +2,11 @@
 See LICENSE folder for this sample’s licensing information.
 
 Abstract:
-Implmentaion of a very simple container for image data
+Implementation of a very simple container for image data
 */
 
 #import "AAPLImage.h"
 #include <simd/simd.h>
-
 
 @implementation AAPLImage
 
@@ -29,7 +28,7 @@ Implmentaion of a very simple container for image data
         {
             uint8_t  IDSize;         // Size of ID info following header
             uint8_t  colorMapType;   // Whether this is a paletted image
-            uint8_t  imageType;      // type of image 0=none,1=indexed,2=rgb,3=grey,+8=rle packed
+            uint8_t  imageType;      // type of image 0=none, 1=indexed, 2=rgb, 3=grey, +8=rle packed
 
             int16_t  colorMapStart;  // Offset to color map in palette
             int16_t  colorMapLength; // Number of colors in palette
@@ -40,7 +39,7 @@ Implmentaion of a very simple container for image data
             uint16_t width;          // Width in pixels
             uint16_t height;         // Height in pixels
             uint8_t  bitsPerPixel;   // Bits per pixel 8,16,24,32
-            uint8_t  descriptor;     // Descirptor bits (flipping, etc)
+            uint8_t  descriptor;     // Descriptor bits (flipping, etc)
         } TGAHeader;
 
         NSError * error;
@@ -109,14 +108,15 @@ Implmentaion of a very simple container for image data
 
             NSMutableData *mutableData = [[NSMutableData alloc] initWithLength:dataSize];
 
-            // TGA spec says the image data is immeidately after the header and the ID so set
+            // TGA spec says the image data is immediately after the header and the ID so set
             //   the pointer to file's start + size of the header + size of the ID
-            // Initialize our pointer with source image data that's in BGR form.
+            // Initialize a source pointer with the source image data that's in BGR form
             uint8_t *srcImageData = ((uint8_t*)fileData.bytes +
                                      sizeof(TGAHeader) +
                                      tgaInfo->IDSize);
 
-            // Initialize our pointer to which we'll store our converted BGRA data
+            // Initialize a destination pointer to which you'll store the converted BGRA
+            // image data
             uint8_t *dstImageData = mutableData.mutableBytes;
 
             // For every row of the image
@@ -125,13 +125,13 @@ Implmentaion of a very simple container for image data
                 // For every column of the current row
                 for(NSUInteger x = 0; x < _width; x++)
                 {
-                    // Calculate the index for the first byte of the pixel we're
-                    //   converting in both the source and destination image arrays
+                    // Calculate the index for the first byte of the pixel you're
+                    // converting in both the source and destination images
                     NSUInteger srcPixelIndex = 3 * (y * _width + x);
                     NSUInteger dstPixelIndex = 4 * (y * _width + x);
 
-                    // Copy BGR channels from source to destination.
-                    // Set the alpha channel of our destination pixel to 255
+                    // Copy BGR channels from the source to the destination
+                    // Set the alpha channel of the destination pixel to 255
                     dstImageData[dstPixelIndex + 0] = srcImageData[srcPixelIndex + 0];
                     dstImageData[dstPixelIndex + 1] = srcImageData[srcPixelIndex + 1];
                     dstImageData[dstPixelIndex + 2] = srcImageData[srcPixelIndex + 2];
@@ -145,7 +145,7 @@ Implmentaion of a very simple container for image data
             // Metal will understand an image with 32-bpp format so we must only create
             //   an NSData object with the file's image data
 
-            // TGA spec says the image data is immeidately after the header and the ID so set
+            // TGA spec says the image data is immediately after the header and the ID so set
             //   the pointer to file's start + size of the header + size of the ID
             uint8_t *srcImageData = ((uint8_t*)fileData.bytes +
                                      sizeof(TGAHeader) +

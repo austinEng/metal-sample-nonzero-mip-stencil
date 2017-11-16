@@ -2,14 +2,10 @@
 See LICENSE folder for this sample’s licensing information.
 
 Abstract:
-Implementation of our tvOS Application Delegate
+Implementation of our iOS & tvOS application delegate
 */
 
 #import "AAPLAppDelegate.h"
-
-@interface AAPLAppDelegate ()
-
-@end
 
 @implementation AAPLAppDelegate
 

@@ -2,7 +2,7 @@
 See LICENSE folder for this sample’s licensing information.
 
 Abstract:
-Implementation of our tvOS view controller
+Implementation of our cross-platform view controller
 */
 
 #import "AAPLViewController.h"
@@ -26,7 +26,7 @@ Implementation of our tvOS view controller
     if(!_view.device)
     {
         NSLog(@"Metal is not supported on this device");
-        self.view = [[UIView alloc] initWithFrame:self.view.frame];
+        return;
     }
 
     _renderer = [[AAPLRenderer alloc] initWithMetalKitView:_view];
@@ -37,6 +37,7 @@ Implementation of our tvOS view controller
         return;
     }
 
+    // Initialize our renderer with the view size
     [_renderer mtkView:_view drawableSizeWillChange:_view.drawableSize];
 
     _view.delegate = _renderer;

@@ -8,6 +8,10 @@ In the [Basic Buffers](https://developer.apple.com/documentation/metal/fundament
 
 In this sample, you'll learn how to render a 2D image by applying a texture to a single quad. In particular, you'll learn how to configure texture properties, interpret texture coordinates, and access a texture in a fragment function.
 
+## Getting Started
+
+The Xcode project contains schemes for running the sample on macOS, iOS, or tvOS. Metal is not supported in the iOS or tvOS Simulator, so the iOS and tvOS schemes require a physical device to run the sample. The default scheme is macOS, which runs the sample as is on your Mac.
+
 ## Images and Textures
 
 A key feature of any graphics technology is the ability to process and draw images. Metal supports this feature in the form of textures that contain image data. Unlike regular 2D images, textures can be used in more creative ways and applied to more surface types. For example, textures can be used to displace select vertex positions, or they can be completely wrapped around a 3D object. In this sample, image data is loaded into a texture, applied to a single quad, and rendered as a 2D image.
@@ -31,12 +35,13 @@ This pixel format uses 32 bits per pixel, arranged into 8 bits per component, in
 After the `AAPLImage` class loads an image file, the image data is accessible through a query to the `data` property.
 
 ``` objective-c
-// Initialize our pointer with source image data that's in BGR form.
+// Initialize a source pointer with the source image data that's in BGR form
 uint8_t *srcImageData = ((uint8_t*)fileData.bytes +
                          sizeof(TGAHeader) +
                          tgaInfo->IDSize);
 
-// Initialize our pointer to which we'll store our converted BGRA data
+// Initialize a destination pointer to which you'll store the converted BGRA
+// image data
 uint8_t *dstImageData = mutableData.mutableBytes;
 
 // For every row of the image
@@ -45,19 +50,20 @@ for(NSUInteger y = 0; y < _height; y++)
     // For every column of the current row
     for(NSUInteger x = 0; x < _width; x++)
     {
-        // Calculate the index for the first byte of the pixel we're
-        //   converting in both the source and destination image arrays
+        // Calculate the index for the first byte of the pixel you're
+        // converting in both the source and destination images
         NSUInteger srcPixelIndex = 3 * (y * _width + x);
         NSUInteger dstPixelIndex = 4 * (y * _width + x);
 
-        // Copy BGR channels from source to destination.
-        // Set the alpha channel of our destination pixel to 255
+        // Copy BGR channels from the source to the destination
+        // Set the alpha channel of the destination pixel to 255
         dstImageData[dstPixelIndex + 0] = srcImageData[srcPixelIndex + 0];
         dstImageData[dstPixelIndex + 1] = srcImageData[srcPixelIndex + 1];
         dstImageData[dstPixelIndex + 2] = srcImageData[srcPixelIndex + 2];
         dstImageData[dstPixelIndex + 3] = 255;
     }
 }
+_data = mutableData;
 ```
 
 ## Create a Texture
@@ -67,13 +73,15 @@ A `MTLTextureDescriptor` object is used to configure properties such as texture 
 ``` objective-c
 MTLTextureDescriptor *textureDescriptor = [[MTLTextureDescriptor alloc] init];
 
-// Indicate that each pixel has a Blue, Green, Red, and Alpha channel,
-//    each in an 8 bit unnormalized value (0 maps 0.0 while 255 maps to 1.0)
+// Indicate that each pixel has a blue, green, red, and alpha channel, where each channel is
+// an 8-bit unsigned normalized value (i.e. 0 maps to 0.0 and 255 maps to 1.0)
 textureDescriptor.pixelFormat = MTLPixelFormatBGRA8Unorm;
+
+ // Set the pixel dimensions of the texture
 textureDescriptor.width = image.width;
 textureDescriptor.height = image.height;
 
-// Create our texture object from the device and our descriptor
+// Create the texture from the device by using the descriptor
 _texture = [_device newTextureWithDescriptor:textureDescriptor];
 ```
 
@@ -122,14 +130,14 @@ To render a complete 2D image, the texture that contains the image data must be 
 ``` objective-c
 static const AAPLVertex quadVertices[] =
 {
-    // Pixel Positions, Texture Coordinates
-    { {  250,  -250 }, { 1.f, 0.f } },
-    { { -250,  -250 }, { 0.f, 0.f } },
-    { { -250,   250 }, { 0.f, 1.f } },
+    // Pixel positions, Texture coordinates
+    { {  250,  -250 },  { 1.f, 0.f } },
+    { { -250,  -250 },  { 0.f, 0.f } },
+    { { -250,   250 },  { 0.f, 1.f } },
 
-    { {  250,  -250 }, { 1.f, 0.f } },
-    { { -250,   250 }, { 0.f, 1.f } },
-    { {  250,   250 }, { 1.f, 1.f } },
+    { {  250,  -250 },  { 1.f, 0.f } },
+    { { -250,   250 },  { 0.f, 1.f } },
+    { {  250,   250 },  { 1.f, 1.f } },
 };
 ```
 
@@ -157,8 +165,8 @@ When the area being rendered to isn't the same size as the texture, the sampler 
 constexpr sampler textureSampler (mag_filter::linear,
                                   min_filter::linear);
 
-// Sample the texture and return the color to colorSample
-const half4 colorSample = colorTexture.sample (textureSampler, in.textureCoordinate);
+// Sample the texture to obtain a color
+const half4 colorSample = colorTexture.sample(textureSampler, in.textureCoordinate);
 ```
 
 ## Set a Fragment Texture
@@ -174,4 +182,4 @@ This sample uses the `AAPLTextureIndexBaseColor` index to identify the texture i
 
 In this sample, you learned how to render a 2D image by applying a texture to a single quad.
 
-In the [Hello Compute](https://developer.apple.com/documentation/metal/fundamental_lessons/hello_compute) sample, you'll learn how to execute compute-processing workloads in Metal for image processing
+In the [Hello Compute](https://developer.apple.com/documentation/metal/compute_processing/hello_compute) sample, you'll learn how to execute compute-processing workloads in Metal for image processing

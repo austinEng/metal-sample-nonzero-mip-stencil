@@ -1,11 +1,10 @@
-
-
 /*
 See LICENSE folder for this sample’s licensing information.
 
 Abstract:
-Implementation of renderer class which perfoms Metal setup and per frame rendering
+Implementation of renderer class which performs Metal setup and per frame rendering
 */
+
 @import simd;
 @import MetalKit;
 
@@ -13,15 +12,14 @@ Implementation of renderer class which perfoms Metal setup and per frame renderi
 #import "AAPLImage.h"
 
 // Header shared between C code here, which executes Metal API commands, and .metal files, which
-//   uses these types as inpute to the shaders
+//   uses these types as input to the shaders
 #import "AAPLShaderTypes.h"
-
 
 // Main class performing the rendering
 @implementation AAPLRenderer
 {
     // The device (aka GPU) we're using to render
-    id <MTLDevice> _device;
+    id<MTLDevice> _device;
 
     // Our render pipeline composed of our vertex and fragment shaders in the .metal shader file
     id<MTLRenderPipelineState> _pipelineState;
@@ -63,13 +61,15 @@ Implementation of renderer class which perfoms Metal setup and per frame renderi
 
         MTLTextureDescriptor *textureDescriptor = [[MTLTextureDescriptor alloc] init];
 
-        // Indicate that each pixel has a Blue, Green, Red, and Alpha channel,
-        //    each in an 8 bit unnormalized value (0 maps 0.0 while 255 maps to 1.0)
+        // Indicate that each pixel has a blue, green, red, and alpha channel, where each channel is
+        // an 8-bit unsigned normalized value (i.e. 0 maps to 0.0 and 255 maps to 1.0)
         textureDescriptor.pixelFormat = MTLPixelFormatBGRA8Unorm;
+
+         // Set the pixel dimensions of the texture
         textureDescriptor.width = image.width;
         textureDescriptor.height = image.height;
 
-        // Create our texture object from the device and our descriptor
+        // Create the texture from the device by using the descriptor
         _texture = [_device newTextureWithDescriptor:textureDescriptor];
 
         // Calculate the number of bytes per row of our image.
@@ -89,21 +89,20 @@ Implementation of renderer class which perfoms Metal setup and per frame renderi
         // Set up a simple MTLBuffer with our vertices which include texture coordinates
         static const AAPLVertex quadVertices[] =
         {
-            // Pixel Positions, Texture Coordinates
-            { {  250,  -250 }, { 1.f, 0.f } },
-            { { -250,  -250 }, { 0.f, 0.f } },
-            { { -250,   250 }, { 0.f, 1.f } },
+            // Pixel positions, Texture coordinates
+            { {  250,  -250 },  { 1.f, 0.f } },
+            { { -250,  -250 },  { 0.f, 0.f } },
+            { { -250,   250 },  { 0.f, 1.f } },
 
-            { {  250,  -250 }, { 1.f, 0.f } },
-            { { -250,   250 }, { 0.f, 1.f } },
-            { {  250,   250 }, { 1.f, 1.f } },
+            { {  250,  -250 },  { 1.f, 0.f } },
+            { { -250,   250 },  { 0.f, 1.f } },
+            { {  250,   250 },  { 1.f, 1.f } },
         };
 
-        // Create our vertex buffer, and intializat it with our quadVertices array
+        // Create our vertex buffer, and initialize it with our quadVertices array
         _vertices = [_device newBufferWithBytes:quadVertices
                                          length:sizeof(quadVertices)
                                         options:MTLResourceStorageModeShared];
-
 
         // Calculate the number of vertices by dividing the byte length by the size of each vertex
         _numVertices = sizeof(quadVertices) / sizeof(AAPLVertex);
@@ -114,10 +113,10 @@ Implementation of renderer class which perfoms Metal setup and per frame renderi
         id<MTLLibrary> defaultLibrary = [_device newDefaultLibrary];
 
         // Load the vertex function from the library
-        id <MTLFunction> vertexFunction = [defaultLibrary newFunctionWithName:@"vertexShader"];
+        id<MTLFunction> vertexFunction = [defaultLibrary newFunctionWithName:@"vertexShader"];
 
         // Load the fragment function from the library
-        id <MTLFunction> fragmentFunction = [defaultLibrary newFunctionWithName:@"samplingShader"];
+        id<MTLFunction> fragmentFunction = [defaultLibrary newFunctionWithName:@"samplingShader"];
 
         // Set up a descriptor for creating a pipeline state object
         MTLRenderPipelineDescriptor *pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
@@ -138,8 +137,6 @@ Implementation of renderer class which perfoms Metal setup and per frame renderi
             NSLog(@"Failed to created pipeline state, error %@", error);
         }
 
-
-        
         // Create the command queue
         _commandQueue = [_device newCommandQueue];
     }
@@ -160,8 +157,8 @@ Implementation of renderer class which perfoms Metal setup and per frame renderi
 - (void)drawInMTKView:(nonnull MTKView *)view
 {
 
-    // Create a new command buffer for each renderpass to the current drawable
-    id <MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
+    // Create a new command buffer for each render pass to the current drawable
+    id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
     commandBuffer.label = @"MyCommand";
 
     // Obtain a renderPassDescriptor generated from the view's drawable textures
@@ -170,7 +167,7 @@ Implementation of renderer class which perfoms Metal setup and per frame renderi
     if(renderPassDescriptor != nil)
     {
         // Create a render command encoder so we can render into something
-        id <MTLRenderCommandEncoder> renderEncoder =
+        id<MTLRenderCommandEncoder> renderEncoder =
         [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
         renderEncoder.label = @"MyRenderEncoder";
 
@@ -193,7 +190,7 @@ Implementation of renderer class which perfoms Metal setup and per frame renderi
         [renderEncoder setFragmentTexture:_texture
                                   atIndex:AAPLTextureIndexBaseColor];
 
-        // Draw the 3 vertices of our triangle
+        // Draw the vertices of our triangles
         [renderEncoder drawPrimitives:MTLPrimitiveTypeTriangle
                           vertexStart:0
                           vertexCount:_numVertices];
