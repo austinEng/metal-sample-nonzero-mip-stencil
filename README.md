@@ -4,7 +4,7 @@ Demonstrates how to load image data and texture a quad.
 
 ## Overview
 
-In the [Basic Buffers](https://developer.apple.com/documentation/metal/fundamental_lessons/basic_buffers) sample, you learned how to render basic geometry in Metal.
+In the [Basic Buffers](https://developer.apple.com/documentation/metal/basic_buffers) sample, you learned how to render basic geometry in Metal.
 
 In this sample, you'll learn how to render a 2D image by applying a texture to a single quad. In particular, you'll learn how to configure texture properties, interpret texture coordinates, and access a texture in a fragment function.
 
@@ -182,4 +182,4 @@ This sample uses the `AAPLTextureIndexBaseColor` index to identify the texture i
 
 In this sample, you learned how to render a 2D image by applying a texture to a single quad.
 
-In the [Hello Compute](https://developer.apple.com/documentation/metal/compute_processing/hello_compute) sample, you'll learn how to execute compute-processing workloads in Metal for image processing
+In the [Hello Compute](https://developer.apple.com/documentation/metal/hello_compute) sample, you'll learn how to execute compute-processing workloads in Metal for image processing

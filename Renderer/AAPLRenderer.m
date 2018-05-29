@@ -12,7 +12,7 @@ Implementation of renderer class which performs Metal setup and per frame render
 #import "AAPLImage.h"
 
 // Header shared between C code here, which executes Metal API commands, and .metal files, which
-//   uses these types as input to the shaders
+//   uses these types as inputs to the shaders
 #import "AAPLShaderTypes.h"
 
 // Main class performing the rendering
@@ -40,7 +40,7 @@ Implementation of renderer class which performs Metal setup and per frame render
     vector_uint2 _viewportSize;
 }
 
-/// Initialize with the MetalKit view from which we'll obtain our metal device
+/// Initialize with the MetalKit view from which we'll obtain our Metal device
 - (nonnull instancetype)initWithMetalKitView:(nonnull MTKView *)mtkView
 {
     self = [super init];
@@ -109,7 +109,7 @@ Implementation of renderer class which performs Metal setup and per frame render
 
         /// Create our render pipeline
 
-        // Load all the shader files with a metal file extension in the project
+        // Load all the shader files with a .metal file extension in the project
         id<MTLLibrary> defaultLibrary = [_device newDefaultLibrary];
 
         // Load the vertex function from the library
@@ -201,10 +201,9 @@ Implementation of renderer class which performs Metal setup and per frame render
         [commandBuffer presentDrawable:view.currentDrawable];
     }
 
-    
+
     // Finalize rendering here & push the command buffer to the GPU
     [commandBuffer commit];
 }
 
 @end
-
