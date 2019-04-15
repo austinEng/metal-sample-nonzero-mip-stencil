@@ -18,25 +18,24 @@ Implementation of renderer class which performs Metal setup and per frame render
 // Main class performing the rendering
 @implementation AAPLRenderer
 {
-    // The device (aka GPU) we're using to render
+    // The device (aka GPU) used to render
     id<MTLDevice> _device;
 
-    // Our render pipeline composed of our vertex and fragment shaders in the .metal shader file
     id<MTLRenderPipelineState> _pipelineState;
 
-    // The command Queue from which we'll obtain command buffers
+    // The command Queue used to submit commands.
     id<MTLCommandQueue> _commandQueue;
 
     // The Metal texture object
     id<MTLTexture> _texture;
 
-    // The Metal buffer in which we store our vertex data
+    // The Metal buffer that holds the vertex data.
     id<MTLBuffer> _vertices;
 
-    // The number of vertices in our vertex buffer
+    // The number of vertices in the vertex buffer.
     NSUInteger _numVertices;
 
-    // The current size of our view so we can use this in our render pipeline
+    // The current size of the view.
     vector_uint2 _viewportSize;
 }
 
@@ -90,16 +89,16 @@ Implementation of renderer class which performs Metal setup and per frame render
         static const AAPLVertex quadVertices[] =
         {
             // Pixel positions, Texture coordinates
-            { {  250,  -250 },  { 1.f, 0.f } },
-            { { -250,  -250 },  { 0.f, 0.f } },
-            { { -250,   250 },  { 0.f, 1.f } },
+            { {  250,  -250 },  { 1.f, 1.f } },
+            { { -250,  -250 },  { 0.f, 1.f } },
+            { { -250,   250 },  { 0.f, 0.f } },
 
-            { {  250,  -250 },  { 1.f, 0.f } },
-            { { -250,   250 },  { 0.f, 1.f } },
-            { {  250,   250 },  { 1.f, 1.f } },
+            { {  250,  -250 },  { 1.f, 1.f } },
+            { { -250,   250 },  { 0.f, 0.f } },
+            { {  250,   250 },  { 1.f, 0.f } },
         };
 
-        // Create our vertex buffer, and initialize it with our quadVertices array
+        // Create a vertex buffer, and initialize it with the quadVertices array
         _vertices = [_device newBufferWithBytes:quadVertices
                                          length:sizeof(quadVertices)
                                         options:MTLResourceStorageModeShared];
@@ -107,7 +106,7 @@ Implementation of renderer class which performs Metal setup and per frame render
         // Calculate the number of vertices by dividing the byte length by the size of each vertex
         _numVertices = sizeof(quadVertices) / sizeof(AAPLVertex);
 
-        /// Create our render pipeline
+        /// Create the render pipeline.
 
         // Load all the shader files with a .metal file extension in the project
         id<MTLLibrary> defaultLibrary = [_device newDefaultLibrary];
@@ -130,10 +129,10 @@ Implementation of renderer class which performs Metal setup and per frame render
                                                                  error:&error];
         if (!_pipelineState)
         {
-            // Pipeline State creation could fail if we haven't properly set up our pipeline descriptor.
-            //  If the Metal API validation is enabled, we can find out more information about what
+            // Pipeline State creation could fail if the pipeline descriptor isn't set up properly.
+            //  If the Metal API validation is enabled, you can find out more information about what
             //  went wrong.  (Metal API validation is enabled by default when a debug build is run
-            //  from Xcode)
+            //  from Xcode).
             NSLog(@"Failed to created pipeline state, error %@", error);
         }
 
@@ -147,8 +146,7 @@ Implementation of renderer class which performs Metal setup and per frame render
 /// Called whenever view changes orientation or is resized
 - (void)mtkView:(nonnull MTKView *)view drawableSizeWillChange:(CGSize)size
 {
-    // Save the size of the drawable as we'll pass these
-    //   values to our vertex shader when we draw
+    // Save the size of the drawable to pass to the vertex shader.
     _viewportSize.x = size.width;
     _viewportSize.y = size.height;
 }
@@ -166,12 +164,11 @@ Implementation of renderer class which performs Metal setup and per frame render
 
     if(renderPassDescriptor != nil)
     {
-        // Create a render command encoder so we can render into something
         id<MTLRenderCommandEncoder> renderEncoder =
         [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
         renderEncoder.label = @"MyRenderEncoder";
 
-        // Set the region of the drawable to which we'll draw.
+        // Set the region of the drawable to draw into.
         [renderEncoder setViewport:(MTLViewport){0.0, 0.0, _viewportSize.x, _viewportSize.y, -1.0, 1.0 }];
 
         [renderEncoder setRenderPipelineState:_pipelineState];
@@ -185,12 +182,12 @@ Implementation of renderer class which performs Metal setup and per frame render
                               atIndex:AAPLVertexInputIndexViewportSize];
 
         // Set the texture object.  The AAPLTextureIndexBaseColor enum value corresponds
-        ///  to the 'colorMap' argument in our 'samplingShader' function because its
-        //   texture attribute qualifier also uses AAPLTextureIndexBaseColor for its index
+        ///  to the 'colorMap' argument in the 'samplingShader' function because its
+        //   texture attribute qualifier also uses AAPLTextureIndexBaseColor for its index.
         [renderEncoder setFragmentTexture:_texture
                                   atIndex:AAPLTextureIndexBaseColor];
 
-        // Draw the vertices of our triangles
+        // Draw the triangles.
         [renderEncoder drawPrimitives:MTLPrimitiveTypeTriangle
                           vertexStart:0
                           vertexCount:_numVertices];
@@ -200,7 +197,6 @@ Implementation of renderer class which performs Metal setup and per frame render
         // Schedule a present once the framebuffer is complete using the current drawable
         [commandBuffer presentDrawable:view.currentDrawable];
     }
-
 
     // Finalize rendering here & push the command buffer to the GPU
     [commandBuffer commit];

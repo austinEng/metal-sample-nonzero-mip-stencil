@@ -4,8 +4,6 @@ Demonstrates how to load image data and texture a quad.
 
 ## Overview
 
-In the [Basic Buffers](https://developer.apple.com/documentation/metal/basic_buffers) sample, you learned how to render basic geometry in Metal.
-
 In this sample, you'll learn how to render a 2D image by applying a texture to a single quad. In particular, you'll learn how to configure texture properties, interpret texture coordinates, and access a texture in a fragment function.
 
 ## Getting Started
@@ -47,12 +45,20 @@ uint8_t *dstImageData = mutableData.mutableBytes;
 // For every row of the image
 for(NSUInteger y = 0; y < _height; y++)
 {
+    // If bit 5 of the descriptor is not set, flip vertically
+    // to transform the data to Metal's top-left texture origin
+    NSUInteger srcRow = (tgaInfo->topOrigin & 0x20) ? y : _height - 1 - y;
+
     // For every column of the current row
     for(NSUInteger x = 0; x < _width; x++)
     {
+        // If bit 4 of the descriptor is set, flip horizontally
+        // to transform the data to Metal's top-left texture origin
+        NSUInteger srcColumn = (tgaInfo->rightOrigin) ? _width - 1 - x : x;
+
         // Calculate the index for the first byte of the pixel you're
         // converting in both the source and destination images
-        NSUInteger srcPixelIndex = 3 * (y * _width + x);
+        NSUInteger srcPixelIndex = srcBytesPerPixel * (srcRow * _width + srcColumn);
         NSUInteger dstPixelIndex = 4 * (y * _width + x);
 
         // Copy BGR channels from the source to the destination
@@ -60,7 +66,15 @@ for(NSUInteger y = 0; y < _height; y++)
         dstImageData[dstPixelIndex + 0] = srcImageData[srcPixelIndex + 0];
         dstImageData[dstPixelIndex + 1] = srcImageData[srcPixelIndex + 1];
         dstImageData[dstPixelIndex + 2] = srcImageData[srcPixelIndex + 2];
-        dstImageData[dstPixelIndex + 3] = 255;
+
+        if(tgaInfo->bitsPerPixel == 32)
+        {
+            dstImageData[dstPixelIndex + 3] =  srcImageData[srcPixelIndex + 3];
+        }
+        else
+        {
+            dstImageData[dstPixelIndex + 3] = 255;
+        }
     }
 }
 _data = mutableData;
@@ -119,7 +133,9 @@ The main task of the fragment function is to process incoming fragment data and 
 
 A texture can't be rendered on its own; it must correspond to some geometric surface that's output by the vertex function and turned into fragments by the rasterizer. This relationship is defined by *texture coordinates*: floating-point positions that map locations on a texture image to locations on a geometric surface.
 
-For 2D textures, texture coordinates are values from 0.0 to 1.0 in both x and y directions. A value of (0.0, 0.0) maps to the texel at the first byte of the image data (the bottom-left corner of the image). A value of (1.0, 1.0) maps to the texel at the last byte of the image data (the top-right corner of the image). Following these rules, accessing the texel in the center of the image requires specifying a texture coordinate of (0.5, 0.5).
+For 2D textures, normalized texture coordinates are values from 0.0 to 1.0 in both x and y directions.
+A value of (0.0, 0.0) specifies the texel in the top-left corner of the image.
+A value of (1.0, 1.0) specifies the texel in the bottom-right corner of the image.
 
 ![Visualizing Texture Coordinates](Documentation/TextureCoordinates.png)
 
@@ -131,13 +147,13 @@ To render a complete 2D image, the texture that contains the image data must be 
 static const AAPLVertex quadVertices[] =
 {
     // Pixel positions, Texture coordinates
-    { {  250,  -250 },  { 1.f, 0.f } },
-    { { -250,  -250 },  { 0.f, 0.f } },
-    { { -250,   250 },  { 0.f, 1.f } },
+    { {  250,  -250 },  { 1.f, 1.f } },
+    { { -250,  -250 },  { 0.f, 1.f } },
+    { { -250,   250 },  { 0.f, 0.f } },
 
-    { {  250,  -250 },  { 1.f, 0.f } },
-    { { -250,   250 },  { 0.f, 1.f } },
-    { {  250,   250 },  { 1.f, 1.f } },
+    { {  250,  -250 },  { 1.f, 1.f } },
+    { { -250,   250 },  { 0.f, 0.f } },
+    { {  250,   250 },  { 1.f, 0.f } },
 };
 ```
 
@@ -177,9 +193,3 @@ This sample uses the `AAPLTextureIndexBaseColor` index to identify the texture i
 [renderEncoder setFragmentTexture:_texture
                           atIndex:AAPLTextureIndexBaseColor];
 ```
-
-## Next Steps
-
-In this sample, you learned how to render a 2D image by applying a texture to a single quad.
-
-In the [Hello Compute](https://developer.apple.com/documentation/metal/hello_compute) sample, you'll learn how to execute compute-processing workloads in Metal for image processing
