@@ -39,7 +39,45 @@ Implementation of renderer class which performs Metal setup and per frame render
     vector_uint2 _viewportSize;
 }
 
-/// Initialize with the MetalKit view from which we'll obtain our Metal device
+- (id<MTLTexture>)loadTextureUsingAAPLImage: (NSURL *) url {
+    
+    AAPLImage * image = [[AAPLImage alloc] initWithTGAFileAtLocation:url];
+    
+    if(!image)
+    {
+        NSLog(@"Failed to create the image from %@", url.absoluteString);
+        return nil;
+    }
+    
+    MTLTextureDescriptor *textureDescriptor = [[MTLTextureDescriptor alloc] init];
+    
+    // Indicate that each pixel has a blue, green, red, and alpha channel, where each channel is
+    // an 8-bit unsigned normalized value (i.e. 0 maps to 0.0 and 255 maps to 1.0)
+    textureDescriptor.pixelFormat = MTLPixelFormatBGRA8Unorm;
+    
+    // Set the pixel dimensions of the texture
+    textureDescriptor.width = image.width;
+    textureDescriptor.height = image.height;
+    
+    // Create the texture from the device by using the descriptor
+    id<MTLTexture> texture = [_device newTextureWithDescriptor:textureDescriptor];
+    
+    // Calculate the number of bytes per row in the image.
+    NSUInteger bytesPerRow = 4 * image.width;
+    
+    MTLRegion region = {
+        { 0, 0, 0 },                   // MTLOrigin
+        {image.width, image.height, 1} // MTLSize
+    };
+    
+    // Copy the bytes from the data object into the texture
+    [texture replaceRegion:region
+                mipmapLevel:0
+                  withBytes:image.data.bytes
+                bytesPerRow:bytesPerRow];
+    return texture;
+}
+
 - (nonnull instancetype)initWithMetalKitView:(nonnull MTKView *)mtkView
 {
     self = [super init];
@@ -49,43 +87,15 @@ Implementation of renderer class which performs Metal setup and per frame render
 
         NSURL *imageFileLocation = [[NSBundle mainBundle] URLForResource:@"Image"
                                                            withExtension:@"tga"];
+        
+        _texture = [self loadTextureUsingAAPLImage: imageFileLocation];
 
-        AAPLImage * image = [[AAPLImage alloc] initWithTGAFileAtLocation:imageFileLocation];
-
-        if(!image)
+        if (!_texture)
         {
-            NSLog(@"Failed to create the image from %@", imageFileLocation.absoluteString);
             return nil;
         }
 
-        MTLTextureDescriptor *textureDescriptor = [[MTLTextureDescriptor alloc] init];
-
-        // Indicate that each pixel has a blue, green, red, and alpha channel, where each channel is
-        // an 8-bit unsigned normalized value (i.e. 0 maps to 0.0 and 255 maps to 1.0)
-        textureDescriptor.pixelFormat = MTLPixelFormatBGRA8Unorm;
-
-         // Set the pixel dimensions of the texture
-        textureDescriptor.width = image.width;
-        textureDescriptor.height = image.height;
-
-        // Create the texture from the device by using the descriptor
-        _texture = [_device newTextureWithDescriptor:textureDescriptor];
-
-        // Calculate the number of bytes per row of our image.
-        NSUInteger bytesPerRow = 4 * image.width;
-
-        MTLRegion region = {
-            { 0, 0, 0 },                   // MTLOrigin
-            {image.width, image.height, 1} // MTLSize
-        };
-
-        // Copy the bytes from our data object into the texture
-        [_texture replaceRegion:region
-                    mipmapLevel:0
-                      withBytes:image.data.bytes
-                    bytesPerRow:bytesPerRow];
-
-        // Set up a simple MTLBuffer with our vertices which include texture coordinates
+        // Set up a simple MTLBuffer with vertices which include texture coordinates
         static const AAPLVertex quadVertices[] =
         {
             // Pixel positions, Texture coordinates
