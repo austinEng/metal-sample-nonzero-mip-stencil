@@ -139,7 +139,7 @@ Implementation of a very simple container for image data
         {
             // If bit 5 of the descriptor is not set, flip vertically
             // to transform the data to Metal's top-left texture origin
-            NSUInteger srcRow = (tgaInfo->topOrigin & 0x20) ? y : _height - 1 - y;
+            NSUInteger srcRow = (tgaInfo->topOrigin) ? y : _height - 1 - y;
 
             // For every column of the current row
             for(NSUInteger x = 0; x < _width; x++)

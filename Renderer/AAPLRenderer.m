@@ -43,12 +43,8 @@ Implementation of renderer class which performs Metal setup and per frame render
     
     AAPLImage * image = [[AAPLImage alloc] initWithTGAFileAtLocation:url];
     
-    if(!image)
-    {
-        NSLog(@"Failed to create the image from %@", url.absoluteString);
-        return nil;
-    }
-    
+    NSAssert(image, @"Failed to create the image from %@", url.absoluteString);
+
     MTLTextureDescriptor *textureDescriptor = [[MTLTextureDescriptor alloc] init];
     
     // Indicate that each pixel has a blue, green, red, and alpha channel, where each channel is
@@ -90,11 +86,6 @@ Implementation of renderer class which performs Metal setup and per frame render
         
         _texture = [self loadTextureUsingAAPLImage: imageFileLocation];
 
-        if (!_texture)
-        {
-            return nil;
-        }
-
         // Set up a simple MTLBuffer with vertices which include texture coordinates
         static const AAPLVertex quadVertices[] =
         {
@@ -118,13 +109,9 @@ Implementation of renderer class which performs Metal setup and per frame render
 
         /// Create the render pipeline.
 
-        // Load all the shader files with a .metal file extension in the project
+        // Load the shaders from the default library
         id<MTLLibrary> defaultLibrary = [_device newDefaultLibrary];
-
-        // Load the vertex function from the library
         id<MTLFunction> vertexFunction = [defaultLibrary newFunctionWithName:@"vertexShader"];
-
-        // Load the fragment function from the library
         id<MTLFunction> fragmentFunction = [defaultLibrary newFunctionWithName:@"samplingShader"];
 
         // Set up a descriptor for creating a pipeline state object
@@ -137,16 +124,9 @@ Implementation of renderer class which performs Metal setup and per frame render
         NSError *error = NULL;
         _pipelineState = [_device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor
                                                                  error:&error];
-        if (!_pipelineState)
-        {
-            // Pipeline State creation could fail if the pipeline descriptor isn't set up properly.
-            //  If the Metal API validation is enabled, you can find out more information about what
-            //  went wrong.  (Metal API validation is enabled by default when a debug build is run
-            //  from Xcode).
-            NSLog(@"Failed to created pipeline state, error %@", error);
-        }
 
-        // Create the command queue
+        NSAssert(_pipelineState, @"Failed to created pipeline state, error %@", error);
+
         _commandQueue = [_device newCommandQueue];
     }
 
@@ -164,7 +144,6 @@ Implementation of renderer class which performs Metal setup and per frame render
 /// Called whenever the view needs to render a frame
 - (void)drawInMTKView:(nonnull MTKView *)view
 {
-
     // Create a new command buffer for each render pass to the current drawable
     id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
     commandBuffer.label = @"MyCommand";

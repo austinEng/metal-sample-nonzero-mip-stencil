@@ -19,7 +19,7 @@ The Metal framework doesn't provide an API to directly load image data from a fi
 Metal itself only allocates texture resources and provides methods that copy data to and from the texture.
 Metal apps rely on custom code or other frameworks, like MetalKit, Image I/O, UIKit, or AppKit, to handle image files. For example, you can use [MTKTextureLoader](https://developer.apple.com/documentation/metalkit/mtktextureloader) to perform simple texture loading. This sample shows how to write a custom texture loader.
 
-- Note: The Xcode project contains schemes for running the sample on macOS, iOS, or tvOS devices. Metal isn't supported in iOS or tvOS Simulator, so you need to run the sample on a physical device. The default scheme is macOS, which runs the sample as is on your Mac.
+- Note: The Xcode project contains schemes for running the sample on macOS, iOS, or tvOS devices. The default scheme is macOS, which runs the sample as is on your Mac.
 
 
 ## Load and Format Image Data
@@ -62,7 +62,7 @@ for(NSUInteger y = 0; y < _height; y++)
 {
     // If bit 5 of the descriptor is not set, flip vertically
     // to transform the data to Metal's top-left texture origin
-    NSUInteger srcRow = (tgaInfo->topOrigin & 0x20) ? y : _height - 1 - y;
+    NSUInteger srcRow = (tgaInfo->topOrigin) ? y : _height - 1 - y;
 
     // For every column of the current row
     for(NSUInteger x = 0; x < _width; x++)
@@ -152,7 +152,7 @@ Call the `replaceRegion:mipmapLevel:withBytes:bytesPerRow:` method on the textur
 
 ## Map the Texture Onto a Geometric Primitive
 
-You can't render a texture on its own; you must map it onto geometric primitives (in this example, a pair of triangles that form a quadrangle) that are output by the vertex stage and turned into fragments by the rasterizer.
+You can't render a texture on its own; you must map it onto geometric primitives (in this example, a pair of triangles) that are output by the vertex stage and turned into fragments by the rasterizer.
 Each fragment needs to know which part of the texture should be applied to it.
 You define this mapping with *texture coordinates*: floating-point positions that map locations on a texture image to locations on the geometric surface.
 
