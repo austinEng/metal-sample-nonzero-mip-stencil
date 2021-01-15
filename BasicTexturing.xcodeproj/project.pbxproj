@@ -14,9 +14,6 @@
 		3A30EDF91EB67EA800B4FC0B /* AAPLImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A30EDF81EB67EA800B4FC0B /* AAPLImage.m */; };
 		3A30EDFE1EB698AD00B4FC0B /* AAPLImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A30EDF81EB67EA800B4FC0B /* AAPLImage.m */; };
 		3A30EDFF1EB698AD00B4FC0B /* AAPLImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A30EDF81EB67EA800B4FC0B /* AAPLImage.m */; };
-		3ABBE2791F7319890080C72C /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ABBE2761F7319760080C72C /* MetalKit.framework */; };
-		3ABBE27B1F7319900080C72C /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ABBE2781F7319760080C72C /* MetalKit.framework */; };
-		3ABBE27C1F7319950080C72C /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ABBE2771F7319760080C72C /* MetalKit.framework */; };
 		3AF7EA0A1EB64A46003BB06D /* AAPLRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF7E9BF1EB64A46003BB06D /* AAPLRenderer.m */; };
 		3AF7EA0B1EB64A46003BB06D /* AAPLRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF7E9BF1EB64A46003BB06D /* AAPLRenderer.m */; };
 		3AF7EA0C1EB64A46003BB06D /* AAPLRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF7E9BF1EB64A46003BB06D /* AAPLRenderer.m */; };
@@ -37,13 +34,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1D8F659C0B2D4F76863CE851 /* SampleCode.xcconfig */ = {isa = PBXFileReference; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		3A1857EF1EB7AF9E007D4F50 /* Image.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = Image.tga; sourceTree = "<group>"; };
 		3A30EDF71EB67EA800B4FC0B /* AAPLImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLImage.h; sourceTree = "<group>"; };
 		3A30EDF81EB67EA800B4FC0B /* AAPLImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLImage.m; sourceTree = "<group>"; };
 		3A93731A1EBB8C17007D505D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		3ABBE2761F7319760080C72C /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
-		3ABBE2771F7319760080C72C /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
-		3ABBE2781F7319760080C72C /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS11.0.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
 		3AF7E9BE1EB64A46003BB06D /* AAPLRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLRenderer.h; sourceTree = "<group>"; };
 		3AF7E9BF1EB64A46003BB06D /* AAPLRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLRenderer.m; sourceTree = "<group>"; };
 		3AF7E9C01EB64A46003BB06D /* AAPLShaderTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLShaderTypes.h; sourceTree = "<group>"; };
@@ -63,8 +58,7 @@
 		3AFD656B1F71A8910008A125 /* AAPLAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLAppDelegate.m; sourceTree = "<group>"; };
 		3AFD65741F71A8A70008A125 /* AAPLAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLAppDelegate.h; sourceTree = "<group>"; };
 		3AFD65751F71A8AB0008A125 /* AAPLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLViewController.h; sourceTree = "<group>"; };
-		E8C58A70E8C346E000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE.txt; sourceTree = "<group>"; };
-		E8F56360E8F5618000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
+		B3EB1BC87D575FADC5DE39B0 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +66,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3ABBE2791F7319890080C72C /* MetalKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,7 +73,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3ABBE27B1F7319900080C72C /* MetalKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,33 +80,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3ABBE27C1F7319950080C72C /* MetalKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3ABBE2751F73196D0080C72C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				3ABBE2781F7319760080C72C /* MetalKit.framework */,
-				3ABBE2771F7319760080C72C /* MetalKit.framework */,
-				3ABBE2761F7319760080C72C /* MetalKit.framework */,
-			);
-			path = Frameworks;
-			sourceTree = "<group>";
-		};
 		3AF7E9B71EB64A46003BB06D = {
 			isa = PBXGroup;
 			children = (
 				3A93731A1EBB8C17007D505D /* README.md */,
 				3AF7E9BC1EB64A46003BB06D /* Renderer */,
 				3AFD65411F71A6D00008A125 /* Application */,
-				3ABBE2751F73196D0080C72C /* Frameworks */,
 				3AF7E9C91EB64A46003BB06D /* Products */,
-				E8F56930E8F56AD000000001 /* Configuration */,
-				E8C39350E8C391E000000001 /* LICENSE */,
+				6B98BEEB2091A95555709721 /* Configuration */,
+				688076ED85AD2F340FF9C7C9 /* LICENSE */,
 			);
 			sourceTree = "<group>";
 		};
@@ -185,19 +165,19 @@
 			path = macOS;
 			sourceTree = "<group>";
 		};
-		E8C39350E8C391E000000001 /* LICENSE */ = {
+		688076ED85AD2F340FF9C7C9 /* LICENSE */ = {
 			isa = PBXGroup;
 			children = (
-				E8C58A70E8C346E000000001 /* LICENSE.txt */,
+				B3EB1BC87D575FADC5DE39B0 /* LICENSE.txt */,
 			);
 			name = LICENSE;
 			path = LICENSE;
 			sourceTree = "<group>";
 		};
-		E8F56930E8F56AD000000001 /* Configuration */ = {
+		6B98BEEB2091A95555709721 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				E8F56360E8F5618000000001 /* SampleCode.xcconfig */,
+				1D8F659C0B2D4F76863CE851 /* SampleCode.xcconfig */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -212,7 +192,6 @@
 				3AF7E9C41EB64A46003BB06D /* Sources */,
 				3AF7E9C51EB64A46003BB06D /* Frameworks */,
 				3AF7E9C61EB64A46003BB06D /* Resources */,
-				00704B50007049C000000001,
 			);
 			buildRules = (
 			);
@@ -230,7 +209,6 @@
 				3AF7E9DE1EB64A46003BB06D /* Sources */,
 				3AF7E9DF1EB64A46003BB06D /* Frameworks */,
 				3AF7E9E01EB64A46003BB06D /* Resources */,
-				00704C4000704A9000000001,
 			);
 			buildRules = (
 			);
@@ -248,7 +226,6 @@
 				3AF7E9F41EB64A46003BB06D /* Sources */,
 				3AF7E9F51EB64A46003BB06D /* Frameworks */,
 				3AF7E9F61EB64A46003BB06D /* Resources */,
-				00701EB000701F1000000001,
 			);
 			buildRules = (
 			);
@@ -265,19 +242,22 @@
 		3AF7E9B81EB64A46003BB06D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = Apple;
 				TargetAttributes = {
 					3AF7E9C71EB64A46003BB06D = {
 						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = A93A5CM278;
 						ProvisioningStyle = Automatic;
 					};
 					3AF7E9E11EB64A46003BB06D = {
 						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = A93A5CM278;
 						ProvisioningStyle = Automatic;
 					};
 					3AF7E9F71EB64A46003BB06D = {
 						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = XPSUQMMH5W;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -412,7 +392,7 @@
 /* Begin XCBuildConfiguration section */
 		3AF7EA191EB64A46003BB06D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8F56360E8F5618000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 1D8F659C0B2D4F76863CE851 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -436,6 +416,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -466,7 +447,7 @@
 		};
 		3AF7EA1A1EB64A46003BB06D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8F56360E8F5618000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 1D8F659C0B2D4F76863CE851 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -490,6 +471,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -513,7 +495,7 @@
 		};
 		3AF7EA1C1EB64A46003BB06D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8F56360E8F5618000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 1D8F659C0B2D4F76863CE851 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
@@ -522,9 +504,10 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Application/iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.$(PRODUCT_NAME)${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = BasicTexturing;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -535,14 +518,15 @@
 		};
 		3AF7EA1D1EB64A46003BB06D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8F56360E8F5618000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 1D8F659C0B2D4F76863CE851 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
 				GCC_PREPROCESSOR_DEFINITIONS = TARGET_IOS;
 				INFOPLIST_FILE = Application/iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.$(PRODUCT_NAME)${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = BasicTexturing;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -554,7 +538,7 @@
 		};
 		3AF7EA1F1EB64A46003BB06D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8F56360E8F5618000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 1D8F659C0B2D4F76863CE851 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
@@ -565,43 +549,44 @@
 				INFOPLIST_FILE = Application/tvOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.$(PRODUCT_NAME)${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = BasicTexturing;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 10.2;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
 		};
 		3AF7EA201EB64A46003BB06D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8F56360E8F5618000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 1D8F659C0B2D4F76863CE851 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
 				GCC_PREPROCESSOR_DEFINITIONS = TARGET_TVOS;
 				INFOPLIST_FILE = Application/tvOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.$(PRODUCT_NAME)${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = BasicTexturing;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 10.2;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		3AF7EA221EB64A46003BB06D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8F56360E8F5618000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 1D8F659C0B2D4F76863CE851 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
-				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					TARGET_MACOS,
 					"$(inherited)",
@@ -610,6 +595,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.$(PRODUCT_NAME)${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = BasicTexturing;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -619,17 +605,17 @@
 		};
 		3AF7EA231EB64A46003BB06D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8F56360E8F5618000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = 1D8F659C0B2D4F76863CE851 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
-				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = TARGET_MACOS;
 				INFOPLIST_FILE = Application/macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.$(PRODUCT_NAME)${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = BasicTexturing;
 				PROVISIONING_PROFILE_SPECIFIER = "";

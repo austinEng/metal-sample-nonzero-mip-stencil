@@ -125,7 +125,7 @@ Implementation of renderer class which performs Metal setup and per frame render
         _pipelineState = [_device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor
                                                                  error:&error];
 
-        NSAssert(_pipelineState, @"Failed to created pipeline state, error %@", error);
+        NSAssert(_pipelineState, @"Failed to create pipeline state: %@", error);
 
         _commandQueue = [_device newCommandQueue];
     }

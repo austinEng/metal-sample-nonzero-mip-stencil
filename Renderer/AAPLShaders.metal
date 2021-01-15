@@ -11,9 +11,9 @@ Metal shaders used for this sample
 using namespace metal;
 
 // Include header shared between this Metal shader code and C code executing Metal API commands
-#import "AAPLShaderTypes.h"
+#include "AAPLShaderTypes.h"
 
-typedef struct
+struct RasterizerData
 {
     // The [[position]] attribute qualifier of this member indicates this value is
     // the clip space position of the vertex when this structure is returned from
@@ -26,7 +26,7 @@ typedef struct
     // that triangle.
     float2 textureCoordinate;
 
-} RasterizerData;
+};
 
 // Vertex Function
 vertex RasterizerData

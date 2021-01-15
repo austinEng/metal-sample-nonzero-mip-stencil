@@ -194,7 +194,7 @@ static const AAPLVertex quadVertices[] =
 To send the texture coordinates to the fragment shader, add a `textureCoordinate` value to the `RasterizerData` data structure:
 
 ``` metal
-typedef struct
+struct RasterizerData
 {
     // The [[position]] attribute qualifier of this member indicates this value is
     // the clip space position of the vertex when this structure is returned from
@@ -207,7 +207,7 @@ typedef struct
     // that triangle.
     float2 textureCoordinate;
 
-} RasterizerData;
+};
 ```
 
 In the vertex shader, pass the texture coordinates to the rasterizer stage by writing them into the `textureCoordinate` field.
