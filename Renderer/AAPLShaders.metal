@@ -63,15 +63,12 @@ vertexShader(uint vertexID [[ vertex_id ]],
 // Fragment function
 fragment float4
 samplingShader(RasterizerData in [[stage_in]],
-               texture2d<half> colorTexture [[ texture(AAPLTextureIndexBaseColor) ]])
+               texture2d<uint, access::read> stencilTexture [[ texture(AAPLTextureIndexBaseColor) ]])
 {
-    constexpr sampler textureSampler (mag_filter::linear,
-                                      min_filter::linear);
+    // Read the texture to obtain the stencil value
+    // Note: hard-coded mip size
+    const uint4 stencilSample = stencilTexture.read(uint2(32 * in.textureCoordinate));
 
-    // Sample the texture to obtain a color
-    const half4 colorSample = colorTexture.sample(textureSampler, in.textureCoordinate);
-
-    // return the color of the texture
-    return float4(colorSample);
+    // return the value as a color
+    return float4(float3(float(stencilSample.r) / 255.f), 1.f);
 }
-

@@ -1,3 +1,5 @@
+Modification of the [BasicTexturing](https://developer.apple.com/documentation/metal/creating_and_sampling_textures?language=objc) Metal sample to test sampling from the non-zero mip of a stencil texture.
+
 # Creating and Sampling Textures
 
 Load image data into a texture and apply it to a quadrangle.
@@ -45,7 +47,7 @@ This sample uses the `MTLPixelFormatBGRA8Unorm` pixel format, which uses 32 bits
 
 Before you can populate a Metal texture, you must format the image data into the texture's pixel format.
 TGA files can provide pixel data either in a 32-bit-per-pixel format or a 24-bit-per-pixel format. TGA files that use 32 bits per pixel are already arranged in this format, so you just copy the pixel data.
-To convert a 24-bit-per-pixel BGR image, copy the red, green, and blue channels and set the alpha channel to 255, indicating a fully opaque pixel. 
+To convert a 24-bit-per-pixel BGR image, copy the red, green, and blue channels and set the alpha channel to 255, indicating a fully opaque pixel.
 
 ``` objective-c
 // Initialize a source pointer with the source image data that's in BGR form
@@ -98,7 +100,7 @@ _data = mutableData;
 ## Create a Texture from a Texture Descriptor
 
 Use a `MTLTextureDescriptor` object to configure properties like texture dimensions and pixel format for a `MTLTexture` object.
-Then call the `newTextureWithDescriptor:` method to create a texture. 
+Then call the `newTextureWithDescriptor:` method to create a texture.
 
 ``` objective-c
 MTLTextureDescriptor *textureDescriptor = [[MTLTextureDescriptor alloc] init];
@@ -115,7 +117,7 @@ textureDescriptor.height = image.height;
 id<MTLTexture> texture = [_device newTextureWithDescriptor:textureDescriptor];
 ```
 
-Metal creates a `MTLTexture` object and allocates memory for the texture data. This memory is uninitialized when the texture is created, so the next step is to copy your data into the texture. 
+Metal creates a `MTLTexture` object and allocates memory for the texture data. This memory is uninitialized when the texture is created, so the next step is to copy your data into the texture.
 
 ## Copy the Image Data into the Texture
 

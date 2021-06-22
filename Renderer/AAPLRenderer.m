@@ -29,6 +29,9 @@ Implementation of renderer class which performs Metal setup and per frame render
     // The Metal texture object
     id<MTLTexture> _texture;
 
+    // Stencil-only view of the texture object
+    id<MTLTexture> _textureView;
+
     // The Metal buffer that holds the vertex data.
     id<MTLBuffer> _vertices;
 
@@ -37,6 +40,10 @@ Implementation of renderer class which performs Metal setup and per frame render
 
     // The current size of the view.
     vector_uint2 _viewportSize;
+
+    uint _mipLevelToTest;
+
+    uint _i;
 }
 
 - (id<MTLTexture>)loadTextureUsingAAPLImage: (NSURL *) url {
@@ -81,10 +88,34 @@ Implementation of renderer class which performs Metal setup and per frame render
     {
         _device = mtkView.device;
 
-        NSURL *imageFileLocation = [[NSBundle mainBundle] URLForResource:@"Image"
-                                                           withExtension:@"tga"];
+        // NSURL *imageFileLocation = [[NSBundle mainBundle] URLForResource:@"Image"
+        //                                                   withExtension:@"tga"];
         
-        _texture = [self loadTextureUsingAAPLImage: imageFileLocation];
+        // _texture = [self loadTextureUsingAAPLImage: imageFileLocation];
+
+        MTLTextureDescriptor *textureDescriptor = [[MTLTextureDescriptor alloc] init];
+
+        // Indicate that each pixel has a blue, green, red, and alpha channel, where each channel is
+        // an 8-bit unsigned normalized value (i.e. 0 maps to 0.0 and 255 maps to 1.0)
+        textureDescriptor.pixelFormat = MTLPixelFormatDepth32Float_Stencil8;
+
+        // 0 works. 1 yields a checkboard pattern.
+        _mipLevelToTest = 1;
+
+        // Set the pixel dimensions of the texture
+        textureDescriptor.width = 64;
+        textureDescriptor.height = 64;
+        textureDescriptor.mipmapLevelCount = 2;
+        textureDescriptor.storageMode = MTLStorageModePrivate;
+        textureDescriptor.usage = MTLTextureUsagePixelFormatView | MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
+
+        // Create the texture from the device by using the descriptor
+        _texture = [_device newTextureWithDescriptor:textureDescriptor];
+
+        _textureView = [_texture newTextureViewWithPixelFormat:MTLPixelFormatX32_Stencil8
+                                                   textureType:MTLTextureType2D
+                                                        levels:NSMakeRange(_mipLevelToTest, 1)
+                                                        slices:NSMakeRange(0, 1)];
 
         // Set up a simple MTLBuffer with vertices which include texture coordinates
         static const AAPLVertex quadVertices[] =
@@ -148,6 +179,22 @@ Implementation of renderer class which performs Metal setup and per frame render
     id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
     commandBuffer.label = @"MyCommand";
 
+    {
+      MTLRenderPassDescriptor *descriptor = [MTLRenderPassDescriptor renderPassDescriptor];
+      descriptor.stencilAttachment.texture = _texture;
+      descriptor.stencilAttachment.level = _mipLevelToTest;
+      descriptor.stencilAttachment.slice = 0;
+      descriptor.stencilAttachment.loadAction = MTLLoadActionClear;
+      descriptor.stencilAttachment.clearStencil = _i++ % 255;
+      descriptor.stencilAttachment.storeAction = MTLStoreActionStore;
+
+      id<MTLRenderCommandEncoder> renderEncoder =
+        [commandBuffer renderCommandEncoderWithDescriptor:descriptor];
+
+      renderEncoder.label = @"ClearStencilRenderEncoder";
+      [renderEncoder endEncoding];
+    }
+
     // Obtain a renderPassDescriptor generated from the view's drawable textures
     MTLRenderPassDescriptor *renderPassDescriptor = view.currentRenderPassDescriptor;
 
@@ -173,7 +220,7 @@ Implementation of renderer class which performs Metal setup and per frame render
         // Set the texture object.  The AAPLTextureIndexBaseColor enum value corresponds
         ///  to the 'colorMap' argument in the 'samplingShader' function because its
         //   texture attribute qualifier also uses AAPLTextureIndexBaseColor for its index.
-        [renderEncoder setFragmentTexture:_texture
+        [renderEncoder setFragmentTexture:_textureView
                                   atIndex:AAPLTextureIndexBaseColor];
 
         // Draw the triangles.
