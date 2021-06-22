@@ -1,5 +1,16 @@
 Modification of the [BasicTexturing](https://developer.apple.com/documentation/metal/creating_and_sampling_textures?language=objc) Metal sample to test sampling from the non-zero mip of a stencil texture.
 
+While implementing some interactions with stencil textures in Dawn, I ran into issues with our Metal backend.
+I [patched the Metal BasicTexturing sample to repro the issue](https://github.com/austinEng/metal-sample-nonzero-mip-stencil/commit/c3ee2d093586958da15770a516c10489caa6b9c9).
+
+1. Create a `MTLTexture` with 2 mip levels and pixel format `MTLPixelFormatDepth32Float_Stencil8`. Include `MTLTextureUsagePixelFormatView` because we intend to make a view with format `MTLPixelFormatX32_Stencil8` to sample the stencil channel.
+2. Clear the second mip level stencil to a constant value in a render pass with `MTLLoadActionClear` / `MTLStoreActionStore`.
+3. Bind a texture view pointing **only** to the second mip level, and sample from it in a second render pass. Expect to see the constant value with which it was cleared.
+
+Instead, on a 15-inch 2017 Macbook Pro, using the AMD GPU, I get a constant checkerboard image:
+
+<img width="797" alt="Screen Shot 2021-06-21 at 7 00 48 PM" src="https://user-images.githubusercontent.com/2154796/122851704-494ae480-d2c4-11eb-93ce-093a8f7fa3e5.png">
+
 # Creating and Sampling Textures
 
 Load image data into a texture and apply it to a quadrangle.
